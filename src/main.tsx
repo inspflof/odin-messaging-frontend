@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import ReactDom from "react-dom/client"
 import { RouterProvider, createRouter } from '@tanstack/react-router'
-
 import { routeTree } from './routeTree.gen'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './hooks/useAuth'
+import "./style/global.css"
 
 const  router = createRouter({ routeTree })
 

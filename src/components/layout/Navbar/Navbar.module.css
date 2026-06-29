@@ -1,0 +1,11 @@
+.navbar {
+    padding: 10px;
+    background: var(--primary-bg-color);
+    text-align: center;
+}
+
+.navbar > a {
+    color: white;
+    text-decoration: none;
+
+}
