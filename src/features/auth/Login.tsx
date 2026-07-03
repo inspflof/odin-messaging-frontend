@@ -3,12 +3,15 @@ import LoginForm from "./components/LoginForm";
 import { useLogin } from "./hooks/useLogin";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export default function Login() {
     const loginApi = useLogin()
-    const { login, logout, user } = useAuth()
+    const { login, user } = useAuth()
     const navigate = useNavigate()
+    const { redirect } = useSearch({
+        from: "/auth/"
+    })
 
     const [credentials, setCredentials] = useState<{ 
         username: string,
@@ -38,7 +41,7 @@ export default function Login() {
     useEffect(() => {
         if(user) {
             navigate({
-                to: "..",
+                to: redirect,
                 replace: true,
             })
         }
@@ -54,7 +57,6 @@ export default function Login() {
                 isError={loginApi.isError}
                 isPending={loginApi.isPending}
             />
-            <button onClick={logout}>Logout</button>
         </>
     )
 }
