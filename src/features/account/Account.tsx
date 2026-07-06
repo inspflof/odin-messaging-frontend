@@ -32,8 +32,7 @@ export default function Account() {
 
     async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
-        const result = await editApi.mutateAsync({ displayName: user?.displayName, username: user?.username })
-
+        await editApi.mutateAsync({ displayName: user?.displayName, username: user?.username })
     }
 
     if(auth.isLoading) return (
