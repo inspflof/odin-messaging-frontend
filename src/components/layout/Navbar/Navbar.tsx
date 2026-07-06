@@ -11,10 +11,13 @@ export default function Navbar() {
             <Link to="/">Home</Link>
             <div>
                 {user && (
-                    <button onClick={logout}>Logout</button>
+                    <>
+                        <Link to="/account">Account</Link>
+                        <button onClick={logout}>Logout</button>
+                    </>
                 )}
                 {!user && (
-                    <Link to="/auth">Login</Link>
+                    <Link to="/auth" search={{ redirect: "/" }}>Login</Link>
                 )}
             </div>
         </nav>
