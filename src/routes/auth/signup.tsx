@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import Login from '../../features/auth/Login'
+import Signup from '../../features/auth/SignUp'
 
-export const Route = createFileRoute('/auth/')({
+export const Route = createFileRoute('/auth/signup')({
     component: RouteComponent,
     validateSearch: (search) => ({
         redirect: (search.redirect as string) || "/"
@@ -10,6 +10,6 @@ export const Route = createFileRoute('/auth/')({
 
 function RouteComponent() {
   return (
-    <Login />
+    <Signup />
   )
 }

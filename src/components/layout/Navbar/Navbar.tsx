@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, redirect, useLocation } from "@tanstack/react-router";
 import { useAuth } from "../../../hooks/useAuth";
 
 import styles from "./Navbar.module.css"
@@ -27,7 +27,7 @@ export default function Navbar() {
                     </>
                 )}
                 {!user && (
-                    <Link to="/auth" search={{ redirect: "/" }}>Login</Link>
+                    <Link to="/auth" search={{ redirect: pathname }}>Login</Link>
                 )}
             </div>
         </nav>

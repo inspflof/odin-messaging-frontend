@@ -3,15 +3,15 @@ import LoginForm from "./components/LoginForm";
 import { useLogin } from "./hooks/useLogin";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 
 export default function Login() {
     const loginApi = useLogin()
     const { login, user } = useAuth()
     const navigate = useNavigate()
-    const { redirect } = useSearch({
+    const { redirect } = useSearch({ 
         from: "/auth/"
-    })
+     })
 
     const [credentials, setCredentials] = useState<{ 
         username: string,
@@ -41,14 +41,17 @@ export default function Login() {
     useEffect(() => {
         if(user) {
             navigate({
-                to: redirect,
+                to: redirect || "/",
                 replace: true,
             })
         }
-    }, [user, navigate])
+    }, [user, navigate, redirect])
 
     return (
         <>
+            <Link to="/auth/signup" search={{
+                redirect: redirect
+            }}>Sign Up</Link>
             <LoginForm 
                 credentials={credentials}
                 error={loginApi.error}

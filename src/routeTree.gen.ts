@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConversationIndexRouteImport } from './routes/conversation/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as ConversationConversationIdRouteImport } from './routes/conversation/$conversationId'
+import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 
 const AccountRoute = AccountRouteImport.update({
   id: '/account',
@@ -41,10 +42,16 @@ const ConversationConversationIdRoute =
     path: '/conversation/$conversationId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/auth/signup',
+  path: '/auth/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/conversation/$conversationId': typeof ConversationConversationIdRoute
   '/auth/': typeof AuthIndexRoute
   '/conversation/': typeof ConversationIndexRoute
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/conversation/$conversationId': typeof ConversationConversationIdRoute
   '/auth': typeof AuthIndexRoute
   '/conversation': typeof ConversationIndexRoute
@@ -60,6 +68,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/conversation/$conversationId': typeof ConversationConversationIdRoute
   '/auth/': typeof AuthIndexRoute
   '/conversation/': typeof ConversationIndexRoute
@@ -69,6 +78,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/account'
+    | '/auth/signup'
     | '/conversation/$conversationId'
     | '/auth/'
     | '/conversation/'
@@ -76,6 +86,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/account'
+    | '/auth/signup'
     | '/conversation/$conversationId'
     | '/auth'
     | '/conversation'
@@ -83,6 +94,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/account'
+    | '/auth/signup'
     | '/conversation/$conversationId'
     | '/auth/'
     | '/conversation/'
@@ -91,6 +103,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
+  AuthSignupRoute: typeof AuthSignupRoute
   ConversationConversationIdRoute: typeof ConversationConversationIdRoute
   AuthIndexRoute: typeof AuthIndexRoute
   ConversationIndexRoute: typeof ConversationIndexRoute
@@ -133,12 +146,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConversationConversationIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/signup': {
+      id: '/auth/signup'
+      path: '/auth/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
+  AuthSignupRoute: AuthSignupRoute,
   ConversationConversationIdRoute: ConversationConversationIdRoute,
   AuthIndexRoute: AuthIndexRoute,
   ConversationIndexRoute: ConversationIndexRoute,

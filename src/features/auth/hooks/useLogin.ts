@@ -10,3 +10,14 @@ export function useLogin() {
             })
     })
 }
+
+export function useSignup() {
+    return useMutation({
+        mutationFn: ({ username, displayName, password }: { username: string, displayName: string, password: string }) => 
+            api.post("/user", {
+                displayName,
+                username,
+                password
+            })
+    })
+}
