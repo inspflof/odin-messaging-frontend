@@ -30,14 +30,17 @@ export default function ConversationAddForm({
                 <h2>New conversation</h2>
                 <p>Name the thread and add the people in it.</p>
             </div>
-            <div className={styles.inputGroup}>
-                <label htmlFor="name">Title : </label>
-                <input 
-                    type="text"
-                    id="name" 
-                    name="name"
-                />
-            </div>
+            {userList.length > 2 && (
+                <div className={styles.inputGroup}>
+                    <label htmlFor="name">Title : </label>
+                    <input 
+                        type="text"
+                        id="name" 
+                        name="name"
+                        placeholder=""
+                    />
+                </div>
+            )}
             <div className={styles.inputGroup}>
                 <label htmlFor="users">Users : </label>
                 <input 
