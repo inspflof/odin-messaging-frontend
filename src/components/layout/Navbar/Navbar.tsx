@@ -1,4 +1,4 @@
-import { Link, redirect, useLocation } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useAuth } from "../../../hooks/useAuth";
 
 import styles from "./Navbar.module.css"
