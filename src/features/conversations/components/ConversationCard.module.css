@@ -1,8 +1,7 @@
 .card {
-    background-color: var(--secondary-bg-color);
-    color: var(--text-color);
-    margin: 5px;
+    background-color: rgb(216, 216, 216);
     padding: 20px;
     font-size: 1.5rem;
     cursor: pointer;
+    border-radius: 5px;
 }

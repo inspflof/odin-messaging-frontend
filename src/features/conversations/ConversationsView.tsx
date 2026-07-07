@@ -1,6 +1,9 @@
-import { Link, useNavigate } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
 import ConversationList from "./components/ConversationList"
 import { useGetConversations } from "./hooks/useConversations"
+import ConversationAddBtn from "./components/ConversationAddBtn"
+
+import styles from "./ConversationsView.module.css"
 
 export default function ConversationsView() {
     const getConversations = useGetConversations()
@@ -22,12 +25,14 @@ export default function ConversationsView() {
     )
 
     return (
-        <>
-            <Link to="/conversation">Add</Link>
+        <div className={styles.main}>
+            <div className={styles.controls}>
+                <ConversationAddBtn />
+            </div>
             <ConversationList 
                 conversations={getConversations.data}
                 handleClick={onConversationClick}
             /> 
-        </>
+        </div>
     )
 }
