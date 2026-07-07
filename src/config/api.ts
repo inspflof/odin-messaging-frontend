@@ -14,18 +14,28 @@ api.interceptors.response.use(
 
         if(
             error.response?.status == 401 &&
-            !originalRequest._retry
+            !originalRequest._retry &&
+            originalRequest.headers["x-skip-refresh"] !== "true"
         ) {
             originalRequest._retry = true
+            try {
+                const refresh = await api.post("auth/refresh", {}, {
+                    headers: {
+                        "x-skip-refresh": "true"
+                    }
+                })
+    
+                const token = refresh.data.accessToken
+    
+                api.defaults.headers.common.Authorization = `Bearer ${token}`
+                originalRequest.headers.Authorization = `Bearer ${token}`
+    
+                return api(originalRequest)
+            } catch (refreshError) {
+                delete api.defaults.headers.common.Authorization
+                return Promise.reject(refreshError)
+            }
 
-            const refresh = await api.post("/auth/refresh")
-
-            const token = refresh.data.accessToken
-
-            api.defaults.headers.common.Authorization = `Bearer ${token}`
-            originalRequest.headers.Authorization = `Bearer ${token}`
-
-            return api(originalRequest)
         }
 
         return Promise.reject(error)

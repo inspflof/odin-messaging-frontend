@@ -30,7 +30,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const initalizeAuth = async () => {
             setIsLoading(true)
             try {
-                const refreshResponse = await api.post("auth/refresh")
+                const refreshResponse = await api.post("auth/refresh", {}, {
+                    headers: {
+                        "x-skip-refresh": "true"
+                    }
+                })
                 const newAccessToken = refreshResponse.data.accessToken
                 setToken(newAccessToken)
 
@@ -38,8 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 const userResponse = await api.get("/auth/me")
                 setUser(userResponse.data)
             } catch (err) {
-                console.warn("Expired or invalid token")
-                logout()
+                console.warn("No active session")
             } finally {
                 setIsLoading(false)
             }
