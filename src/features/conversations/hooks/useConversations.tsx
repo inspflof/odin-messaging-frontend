@@ -1,6 +1,7 @@
 import { api } from "../../../config/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { Conversation } from "../../../types/conversation";
+import type { Message } from "../../../types/message";
 
 export function useGetConversations() {
     return useQuery({
@@ -19,5 +20,15 @@ export function useCreateConversation() {
                 userIds,
                 name
             })
+    })
+}
+
+export function useGetMessages(conversationId: string) {
+    return useQuery({
+        queryKey: ["messages", conversationId],
+        queryFn: async ():Promise<Message[]> => {
+            const res = await api.get(`/conversation/${conversationId}/message`)
+            return res.data
+        }
     })
 }
