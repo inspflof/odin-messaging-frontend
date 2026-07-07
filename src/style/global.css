@@ -4,7 +4,20 @@
 }
 
 :root {
-    --primary-bg-color: black;
-    --secondary-bg-color: rgb(79, 79, 79);
-    --text-color: rgb(235, 235, 235);
+    --deep-space-blue: #273043;
+    --blue-slate: #5c6479;
+    --lavender-grey: #9197ae;
+    --mint-cream: #eff6ee;
+    --light-coral: #f09294;
+    --strawberry-red: #f02d3a;
+    --primary-scarlet: #dd0426;
+
+    --ink: var(--deep-space-blue);      /* texte principal */
+    --ink-soft: var(--blue-slate);      /* texte secondaire, labels */
+    --paper: #ffffff;                   /* fond de la carte */
+    --mist: var(--mint-cream);          /* fond des inputs */
+    --line: var(--lavender-grey);       /* bordures */
+    --accent: var(--primary-scarlet);   /* focus, bouton principal, avatars */
+    --accent-soft: color-mix(in srgb, var(--primary-scarlet) 12%, white); /* hover doux */
+    --danger: var(--strawberry-red);    /* suppression, erreurs */
 }

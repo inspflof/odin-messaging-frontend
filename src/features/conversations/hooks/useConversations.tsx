@@ -1,19 +1,23 @@
 import { api } from "../../../config/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import type { Conversation } from "../../../types/conversation";
 
-export default function useConversations() {
-    const getAll = useQuery({
+export function useGetConversations() {
+    return useQuery({
         queryKey: ["conversations"],
-        queryFn: () => api.get("/conversation")
+        queryFn: async ():Promise<Conversation[]> => {
+            const res = await api.get("/conversation")
+            return res.data
+        }
     })
+}
 
-    const create = useMutation({
+export function useCreateConversation() {
+    return useMutation({
         mutationFn: ({ userIds, name }: { userIds: string[], name: string }) =>
             api.post("/conversation", {
                 userIds,
                 name
             })
     })
-
-    return { getAll, create }
 }

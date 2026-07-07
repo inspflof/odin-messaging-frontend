@@ -1,14 +1,16 @@
 import { useState } from "react"
 import ConversationAddForm from "./components/ConversationAddForm"
 import type { User } from "../../types/user"
-import useConversations from "./hooks/useConversations"
+import { useCreateConversation } from "./hooks/useConversations"
 import { useNavigate } from "@tanstack/react-router"
 import { useAuth } from "../../hooks/useAuth"
+
+import styles from "./ConversationAdd.module.css"
 
 export default function ConversationAdd() {
     const { user: currentUser } = useAuth()
     const [users, setUsers] = useState<User[]>(currentUser ? [currentUser] : [])
-    const conversationApi = useConversations()
+    const createConversation = useCreateConversation()
     const navigate = useNavigate()
 
     function onAddUser(user: User) {
@@ -38,7 +40,7 @@ export default function ConversationAdd() {
         const name = formData.get("name")
         
         const userIds = users.map(user => user.id)
-        const res = await conversationApi.create.mutateAsync({
+        const res = await createConversation.mutateAsync({
             userIds,
             name: typeof name === "string" ? name : ""
         })
@@ -52,7 +54,7 @@ export default function ConversationAdd() {
     }
 
     return (
-        <div>
+        <div className={styles.conversationAdd}>
             <ConversationAddForm 
                 userList={users}
                 addUser={onAddUser}

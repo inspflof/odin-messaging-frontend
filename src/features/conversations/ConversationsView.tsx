@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "@tanstack/react-router"
 import ConversationList from "./components/ConversationList"
-import useConversations from "./hooks/useConversations"
+import { useGetConversations } from "./hooks/useConversations"
 
 export default function ConversationsView() {
-    const conversationApi = useConversations()
+    const getConversations = useGetConversations()
     const navigate = useNavigate()
 
     function onConversationClick(conversationId: string) {
@@ -13,11 +13,11 @@ export default function ConversationsView() {
         })
     }
 
-    if(conversationApi.getAll.isPending) return (
+    if(getConversations.isPending) return (
         <div>Loading...</div>
     )
 
-    if(!conversationApi.getAll.data?.data) return (
+    if(!getConversations.data) return (
         <div>No conversation...</div>
     )
 
@@ -25,7 +25,7 @@ export default function ConversationsView() {
         <>
             <Link to="/conversation">Add</Link>
             <ConversationList 
-                conversations={conversationApi.getAll.data.data}
+                conversations={getConversations.data}
                 handleClick={onConversationClick}
             /> 
         </>
