@@ -1,12 +1,32 @@
 import { useParams } from "@tanstack/react-router"
-import { useGetMessages } from "./hooks/useConversations"
+import { useAddMessage, useGetMessages } from "./hooks/useConversations"
 import { useAuth } from "../../hooks/useAuth"
 import MessageList from "./components/MessageList"
+import MessageAdd from "./components/MessageAdd"
+import { useState } from "react"
 
 export default function ConversationView() {
     const { conversationId } = useParams({ from: "/conversation/$conversationId" })
     const messageApi = useGetMessages(conversationId)
     const auth = useAuth()
+    const sendMessageApi = useAddMessage()
+
+    const [message, setMessage] = useState<string>("")
+
+    function handleSendMessage(e: React.SubmitEvent<HTMLFormElement>) {
+        e.preventDefault()
+        if(!message.trim()) return
+
+        sendMessageApi.mutateAsync({ 
+            conversationId,
+            message
+         })
+    }
+
+    function handleChangeMessage(e: React.ChangeEvent<HTMLInputElement>) {
+        const { value } = e.currentTarget
+        setMessage(value)
+    }
 
     if(!auth.user) return (
         <div>Acces denied</div>
@@ -29,6 +49,12 @@ export default function ConversationView() {
             <MessageList 
                 currentUserId={auth.user.id}
                 messages={messageApi.data}
+            />
+            <MessageAdd 
+                onSubmit={handleSendMessage}
+                onChange={handleChangeMessage}
+                isLoading={sendMessageApi.isPending}
+                message={message}
             />
         </div>
     )

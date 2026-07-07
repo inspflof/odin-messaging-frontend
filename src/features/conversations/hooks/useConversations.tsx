@@ -32,3 +32,12 @@ export function useGetMessages(conversationId: string) {
         }
     })
 }
+
+export function useAddMessage() {
+    return useMutation({
+        mutationFn: ({ conversationId, message }: { conversationId: string, message: string }) =>
+            api.post(`/conversation/${conversationId}/message`, {
+                contents: [message]
+            })
+    })
+}
