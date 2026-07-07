@@ -4,16 +4,21 @@ import { useAuth } from "../../../hooks/useAuth";
 import styles from "./Navbar.module.css"
 
 export default function Navbar() {
-    const { user, logout } = useAuth()
+    const { user } = useAuth()
 
     return (
         <nav className={styles.navbar}>
-            <Link to="/">Home</Link>
+            <Link 
+                className={styles.link} 
+                to="/"
+            >Home</Link>
             <div>
                 {user && (
                     <>
-                        <Link to="/account">Account</Link>
-                        <button onClick={logout}>Logout</button>
+                        <Link 
+                            to="/account"
+                            className={styles.link}
+                        >Account</Link>
                     </>
                 )}
                 {!user && (

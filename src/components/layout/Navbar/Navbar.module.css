@@ -2,10 +2,11 @@
     padding: 10px;
     background: rgb(184, 184, 184);
     text-align: center;
+    display: flex;
+    justify-content: space-between;
 }
 
-.navbar > a {
+.link {
     color: black;
     text-decoration: none;
-
 }

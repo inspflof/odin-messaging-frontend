@@ -45,6 +45,7 @@ export default function Account() {
 
     return (
         <>
+            <button onClick={auth.logout}>Logout</button>
             <AccountDetail 
                 user={user}
                 handleCancel={handleCancel}
