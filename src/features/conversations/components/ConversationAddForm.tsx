@@ -50,7 +50,7 @@ export default function ConversationAddForm({
                     onChange={(e) => setUserInput(e.target.value)}
                     />
                 {userInput && safeSearchList.length > 0 && (
-                <div className={styles.resultUsers}>
+                    <div className={styles.resultUsers}>
                         {safeSearchList.map(user => (
                             <div className={styles.result} key={user.id}>
                                 <div>
@@ -68,12 +68,12 @@ export default function ConversationAddForm({
                         ))}
                     </div>
                 )}
+                {userInput && safeSearchList.length === 0 && (
+                    <div className={styles.resultUsers}>
+                        No match found...
+                    </div>
+                )}
             </div>
-            {userInput && safeSearchList.length === 0 && (
-                <div className={styles.resultUsers}>
-                    No match found...
-                </div>
-            )}
             <div className={styles.userList}>
                 {userList.map(user => (
                     <div key={user.id}>{user.displayName}</div>
