@@ -5,6 +5,8 @@ import MessageList from "./components/MessageList"
 import MessageAdd from "./components/MessageAdd"
 import { useState } from "react"
 
+import styles from "./ConversationView.module.css"
+
 export default function ConversationView() {
     const { conversationId } = useParams({ from: "/conversation/$conversationId" })
     const messageApi = useGetMessages(conversationId)
@@ -17,10 +19,11 @@ export default function ConversationView() {
         e.preventDefault()
         if(!message.trim()) return
 
+        setMessage("")
         sendMessageApi.mutateAsync({ 
             conversationId,
             message
-         })
+        })
     }
 
     function handleChangeMessage(e: React.ChangeEvent<HTMLInputElement>) {
@@ -45,7 +48,7 @@ export default function ConversationView() {
     )
 
     return (
-        <div>
+        <div className={styles.conversation}>
             <MessageList 
                 currentUserId={auth.user.id}
                 messages={messageApi.data}

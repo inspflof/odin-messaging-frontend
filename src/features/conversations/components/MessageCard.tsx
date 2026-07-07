@@ -1,4 +1,7 @@
+import clsx from "clsx";
 import type { Message } from "../../../types/message"
+
+import styles from "./MessageCard.module.css"
 
 type Props = {
     message: Message;
@@ -10,7 +13,10 @@ export default function MessageCard({
     currentUserId
 }:Props) {
     return (
-        <div>
+        <div className={clsx(
+            styles.message,
+            currentUserId === message.userId ? styles.mine : styles.other
+        )}>
             {message.content}
         </div>
     )

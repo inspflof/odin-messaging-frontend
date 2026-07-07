@@ -1,5 +1,8 @@
+import { useEffect, useRef } from "react";
 import type { Message } from "../../../types/message"
 import MessageCard from "./MessageCard";
+
+import styles from "./MessageList.module.css"
 
 type Props = {
     messages: Message[];
@@ -10,8 +13,16 @@ export default function MessageList({
     messages,
     currentUserId
 }:Props) {
+    const listRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if(listRef.current) {
+            listRef.current.scrollTop = listRef.current.scrollHeight 
+        }
+    }, [messages])
+
     return (
-        <div>
+        <div ref={listRef} className={styles.list}>
             {messages.map(message => (
                 <MessageCard 
                     message={message}

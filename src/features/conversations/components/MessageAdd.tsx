@@ -1,4 +1,5 @@
 import type React from "react"
+import styles from "./MessageAdd.module.css"
 
 type Props = {
     onSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
@@ -14,16 +15,21 @@ export default function MessageAdd({
     isLoading
 }:Props) {
     return (
-        <form onSubmit={onSubmit}>
+        <form 
+            onSubmit={onSubmit}
+            className={styles.form}
+        >
             <input 
                 type="text" 
                 name="message"
                 onChange={onChange}
                 value={message}
+                className={styles.message}
             />
             <button 
                 type="submit"
                 disabled={isLoading}
+                className={styles.btn}
             >Send</button>
         </form>
     )

@@ -1,0 +1,16 @@
+.message {
+    background: rgb(205, 205, 205);
+    width: fit-content;
+    padding: 3px 7px 3px 7px;
+    margin: 1px;
+    border-radius: 5px;
+}
+
+.mine {
+    align-self: flex-end;
+    background-color: rgb(164, 164, 164);
+}
+
+.other {
+    background-color: rgb(230, 230, 230);
+}

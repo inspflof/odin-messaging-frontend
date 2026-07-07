@@ -1,13 +1,18 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useAuth } from "../../../hooks/useAuth";
 
 import styles from "./Navbar.module.css"
+import clsx from "clsx";
 
 export default function Navbar() {
     const { user } = useAuth()
+    const { pathname } = useLocation()
 
     return (
-        <nav className={styles.navbar}>
+        <nav className={clsx(
+            styles.navbar,
+            pathname.match(/\/conversation\/.+/) && styles.onConversation 
+        )}>
             <Link 
                 className={styles.link} 
                 to="/"
