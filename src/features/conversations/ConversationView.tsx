@@ -3,33 +3,71 @@ import { useAddMessage, useGetMessages } from "./hooks/useConversations"
 import { useAuth } from "../../hooks/useAuth"
 import MessageList from "./components/MessageList"
 import MessageAdd from "./components/MessageAdd"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { socket } from "../../config/socket"
+import { useQueryClient } from "@tanstack/react-query"
 
 import styles from "./ConversationView.module.css"
+import type { Message } from "../../types/message"
 
 export default function ConversationView() {
     const { conversationId } = useParams({ from: "/conversation/$conversationId" })
     const messageApi = useGetMessages(conversationId)
     const auth = useAuth()
     const sendMessageApi = useAddMessage()
+    const queryClient = useQueryClient()
 
     const [message, setMessage] = useState<string>("")
 
-    function handleSendMessage(e: React.SubmitEvent<HTMLFormElement>) {
+    async function handleSendMessage(e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault()
         if(!message.trim()) return
 
-        setMessage("")
-        sendMessageApi.mutateAsync({ 
+        const res = await sendMessageApi.mutateAsync({ 
             conversationId,
             message
         })
+
+        socket.emit("message", {
+            conversationId,
+            data: res.data            
+        })
+        
+        setMessage("")
     }
 
     function handleChangeMessage(e: React.ChangeEvent<HTMLInputElement>) {
         const { value } = e.currentTarget
         setMessage(value)
     }
+
+    useEffect(() => {
+        socket.connect()
+
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
+
+    useEffect(() => {
+        function onMessage(res: { data: Message[] }) {
+            queryClient.setQueryData<Message[]>(
+                ["messages", conversationId], 
+                (old: Message[] = []) => [...old, ...res.data]
+            )
+        }
+
+        socket.on("message", onMessage)
+        
+        return () => {
+            socket.off("message", onMessage)
+        }
+    }, [conversationId, queryClient])
+
+    useEffect(() => {
+        socket.emit("join_conversation", conversationId)
+    }, [conversationId])
+
 
     if(!auth.user) return (
         <div>Acces denied</div>
