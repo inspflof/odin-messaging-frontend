@@ -28,12 +28,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
             socket.connect()
 
+            socket.on("connect_error", async (err) => {
+                console.warn("Socket connection error: ", err.message)
+
+                try {
+                    const refreshResponse = await api.post("auth/refresh", {}, {
+                        headers: {
+                            "x-skip-refresh": true
+                        }
+                    })
+
+                    const newAccessToken = refreshResponse.data.accessToken
+
+                    setToken(newAccessToken)
+                } catch(refreshError) {
+                    console.error("Failed to refresh token for socket: ", refreshError)
+                    logout()
+                }
+            })
+
             socket.on("error", (err) => {
                 alert(err.message);
             });
 
             return () => {
                 socket.disconnect();
+                socket.off("connect_error")
                 socket.off("error");
             };
         } else {
@@ -59,6 +79,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 setUser(userResponse.data)
             } catch (err) {
                 console.warn("No active session")
+                logout()
             } finally {
                 setIsLoading(false)
             }
