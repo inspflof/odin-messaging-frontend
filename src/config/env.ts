@@ -1,5 +1,6 @@
 type Env = {
     VITE_API_URL: string;
+    VITE_NODE_ENV: "development" | "production";
 }
 
 function requireEnv(name: string) {
@@ -14,4 +15,5 @@ function requireEnv(name: string) {
 
 export const env: Env = {
     VITE_API_URL: requireEnv("VITE_API_URL"),
+    VITE_NODE_ENV: requireEnv("VITE_NODE_ENV"),
 }
