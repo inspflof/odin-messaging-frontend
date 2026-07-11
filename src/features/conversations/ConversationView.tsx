@@ -44,6 +44,10 @@ export default function ConversationView() {
     useEffect(() => {
         socket.connect()
 
+        socket.on("connect_error", (err) => {
+            console.log(err.message)
+        })
+
         return () => {
             socket.disconnect()
         }

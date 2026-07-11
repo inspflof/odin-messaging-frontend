@@ -2,6 +2,7 @@ import React from "react"
 import { useContext, useState, useEffect, createContext } from "react"
 import { api } from "../config/api"
 import type { UserApiType } from "../types/user";
+import { socket } from "../config/socket";
 
 type AuthContextType = {
     token: null | string;
@@ -20,9 +21,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         if(token) {
-            api.defaults.headers.common["Authorization"] = `Bearer ${token}`
+            const formatedToken = `Bearer ${token}`
+            api.defaults.headers.common["Authorization"] = formatedToken
+
+            socket.auth = { token: formatedToken }
+
+            socket.connect()
+
+            socket.on("error", (err) => {
+                alert(err.message);
+            });
+
+            return () => {
+                socket.disconnect();
+                socket.off("error");
+            };
         } else {
             delete api.defaults.headers.common["Authorization"]
+            socket.disconnect()
         }
     }, [token])
 
